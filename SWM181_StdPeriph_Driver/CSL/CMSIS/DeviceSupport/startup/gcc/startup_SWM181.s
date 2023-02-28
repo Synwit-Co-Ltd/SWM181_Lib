@@ -3,7 +3,7 @@
     0       16k             16k             Cache Enable，Code Memory 240K
     1       8k              24k             Cache Enable，Code Memory 240K
     3       24k             8k                                          */
-    .equ SRAM_SWITCH, 3
+    .equ SRAM_SWITCH, 0
 
 
     .syntax unified
