@@ -148,8 +148,6 @@ void PORT_Init(PORT_TypeDef * PORTx, uint32_t n, uint32_t func, uint32_t digit_i
 
 
 
-#define PORTC_PIN0_GPIO		 	0
-#define PORTC_PIN0_FUNMUX		1
 #define PORTC_PIN0_XTAL_OUT		2
 
 #define PORTC_PIN1_GPIO			0
