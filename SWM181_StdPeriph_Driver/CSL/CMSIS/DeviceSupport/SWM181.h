@@ -1812,7 +1812,8 @@ typedef struct {
 #define SDADC_CTRL_BIAS_Msk		    (0x01 << SDADC_CTRL_BIAS_Pos)
 #define SDADC_CTRL_CONT_Pos		    13		//Continuous conversion，只在软件启动模式下有效，0 单次转换，转换完成后START位自动清除停止转换
 #define SDADC_CTRL_CONT_Msk		    (0x01 << SDADC_CTRL_CONT_Pos)						//   1 连续转换，启动后一直采样、转换，直到软件清除START位
-#define SDADC_CTRL_FAST_Pos		    14		//只有在单通道模式下可以使用， 1 快速工作模式，转换周期约20us，在只开启一个通道时可用    0 普通工作模式，转换周期约60us
+#define SDADC_CTRL_FAST_Pos		    14		//1 快速转换模式，转换耗时 120 个 SDADC_CLK 时钟周期（6MHz 下 20us），只在单通道、连续转换模式下可用
+											//0 普通转换模式，转换耗时 360 个 SDADC_CLK 时钟周期（6MHz 下 60us）
 #define SDADC_CTRL_FAST_Msk		    (0x01 << SDADC_CTRL_FAST_Pos)
 #define SDADC_CTRL_OUTCALI_Pos		15		//0 ADC输出无校准         1 ADC输出启动校准
 #define SDADC_CTRL_OUTCALI_Msk		(0x01 << SDADC_CTRL_OUTCALI_Pos)
