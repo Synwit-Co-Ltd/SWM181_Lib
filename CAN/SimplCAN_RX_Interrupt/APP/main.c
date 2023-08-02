@@ -1,6 +1,9 @@
 #include "SWM181.h"
 
-CAN_RXMessage CAN_RXMsg;
+#include "CircleBuffer.h"
+
+CircleBuffer_t CirBuf;
+
 
 void SerialInit(void);
 
@@ -80,29 +83,34 @@ int main(void)
 	
 	while(1==1)
 	{
-		if(CAN_RXMsg.size > 0)
+		CAN_RXMessage msg;
+		
+		if(CirBuf_Read(&CirBuf, &msg, 1))
 		{
-			printf("\r\nReceive %s: %08X, ", CAN_RXMsg.format == CAN_FRAME_STD ? "STD" : "EXT", CAN_RXMsg.id);
-			for(i = 0; i < CAN_RXMsg.size; i++) printf("%02X, ", CAN_RXMsg.data[i]);
-			
-			CAN_RXMsg.size = 0;
-		}
-		else if(CAN_RXMsg.remote == 1)	//Ô¶³ÌÖ¡
-		{
-			printf("\r\nReceive %s Remote Request", CAN_RXMsg.format == CAN_FRAME_STD ? "STD" : "EXT");
-			
-			CAN_RXMsg.remote = 0;
+			if(msg.size > 0)
+			{
+				printf("\r\nReceive %s: %08X, ", msg.format == CAN_FRAME_STD ? "STD" : "EXT", msg.id);
+				for(i = 0; i < msg.size; i++) printf("%02X, ", msg.data[i]);
+			}
+			else if(msg.remote == 1)	//Ô¶³ÌÖ¡
+			{
+				printf("\r\nReceive %s Remote Request", msg.format == CAN_FRAME_STD ? "STD" : "EXT");
+			}
 		}
 	}
 }
 
 void IRQ5_Handler(void)
 {
+	CAN_RXMessage msg;
+	
 	uint32_t int_sr = CAN_INTStat(CAN);
 	
 	if(int_sr & CAN_IF_RXDA_Msk)
 	{
-		CAN_Receive(CAN, &CAN_RXMsg);
+		CAN_Receive(CAN, &msg);
+		
+		CirBuf_Write(&CirBuf, &msg, 1);
 	}
 }
 
