@@ -1,8 +1,14 @@
 #include "SWM181.h"
 #include "CircleBuffer.h"
 
-CircleBuffer_t CirBuf;
+/* 说明：只有当接收 FIFO 中有数据，且在指定时间内未接收到新的数据时，才会触发超时中断。
+ * 若应用中希望通过数据间时间间隔作为帧间隔依据，即不管对方发送过来多少个数据，
+ * 最后都能产生超时中断，可以通过在接收 ISR 中从 RX FIFO 中读取数据时总是少读一个（即让一个数据留在 RX FIFO 中）来实现。
+*/
 
+volatile bool msg_rcvd = false;
+
+CircleBuffer_t CirBuf;
 
 void SerialInit(void);
 
@@ -14,9 +20,12 @@ int main(void)
    	
 	while(1==1)
 	{
-		uint8_t chr;
-		if(CirBuf_Read(&CirBuf, &chr, 1))
-			printf("%c", chr);
+		if(msg_rcvd)
+		{
+			msg_rcvd = false;
+			
+			UART_INTEn(UART0, UART_IT_TX_THR);
+		}
 	}
 }
 
@@ -25,13 +34,44 @@ void IRQ0_Handler(void)
 {
 	uint32_t chr;
 	
-	if(UART_INTStat(UART0, UART_IT_RX_THR | UART_IT_RX_TOUT))
+	if(UART_INTStat(UART0, UART_IT_RX_THR))
+	{
+		while((UART0->FIFO & UART_FIFO_RXLVL_Msk) > 1)
+		{
+			if(UART_ReadByte(UART0, &chr) == 0)
+			{
+				CirBuf_Write(&CirBuf, (uint8_t *)&chr, 1);
+			}
+		}
+	}
+	else if(UART_INTStat(UART0, UART_IT_RX_TOUT))
 	{
 		while(UART_IsRXFIFOEmpty(UART0) == 0)
 		{
 			if(UART_ReadByte(UART0, &chr) == 0)
 			{
 				CirBuf_Write(&CirBuf, (uint8_t *)&chr, 1);
+			}
+		}
+		
+		msg_rcvd = true;
+	}
+	
+	if(UART_INTStat(UART0, UART_IT_TX_THR))
+	{
+		while(!UART_IsTXFIFOFull(UART0))
+		{
+			if(!CirBuf_Empty(&CirBuf))
+			{
+				CirBuf_Read(&CirBuf, (uint8_t *)&chr, 1);
+				
+				UART_WriteByte(UART0, chr);
+			}
+			else
+			{
+				UART_INTDis(UART0, UART_IT_TX_THR);
+				
+				break;
 			}
 		}
 	}

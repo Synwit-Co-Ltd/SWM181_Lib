@@ -2,7 +2,7 @@
 
 <workspace>
   <project>
-    <path>$WS_DIR$\SimplUART_Interrupt_TX.ewp</path>
+    <path>$WS_DIR$\SimplUART_Int.ewp</path>
   </project>
   <batchBuild/>
 </workspace>
