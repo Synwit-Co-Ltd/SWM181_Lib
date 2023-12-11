@@ -16,7 +16,7 @@
         <TargetCommonOption>
           <Device>SWM181xB</Device>
           <Vendor>Synwit</Vendor>
-          <PackID>Synwit.SWM32_DFP.2.0.1</PackID>
+          <PackID>Synwit.SWM32_DFP.2.0.8</PackID>
           <PackURL>http://www.synwit.com/pack</PackURL>
           <Cpu>IROM(0x00000000,0x1E000) IRAM(0x20000000,0x4000) CPUTYPE("Cortex-M0") CLOCK(12000000) ELITTLE</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
