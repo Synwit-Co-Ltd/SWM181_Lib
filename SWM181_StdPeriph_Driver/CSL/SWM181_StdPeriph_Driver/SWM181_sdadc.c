@@ -123,7 +123,7 @@ void SDADC_Config_Cali(SDADC_TypeDef * SDADCx, uint32_t CFGx, uint32_t cali_com,
 				   (0 << SDADC_CTRL_RST_Pos)                   	|
 				   (1 << SDADC_CTRL_EN_Pos)						|
 				   (1 << SDADC_CTRL_BIAS_Pos)                  	|
-				   (0 << SDADC_CTRL_CONT_Pos)    				|
+				   (cali_fast << SDADC_CTRL_CONT_Pos)    		|
 				   (cali_fast << SDADC_CTRL_FAST_Pos)           |
 				   (SDADC_OUT_RAW << SDADC_CTRL_OUTCALI_Pos) 	|
 				   (0 << SDADC_CTRL_LOWCLK_Pos)                	|
