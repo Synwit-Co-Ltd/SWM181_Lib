@@ -96,7 +96,8 @@ int main(void)
 	
 	while(1==1)
 	{
-		while((CAN->SR & CAN_SR_BUSOFF_Msk) == 0)
+		/* 注意：CAN->CR.RST == 1 时执行 CAN_Transmit() 会修改 Filter 设置，导致无法接收所需的 CAN 帧 */
+		while((CAN->CR & CAN_CR_RST_Msk) == 0)
 		{
 			CAN_Transmit(CAN, CAN_FRAME_STD, 0x60D, tx_data, 8, 1);
 			
