@@ -68,12 +68,6 @@ uint32_t UART_IsTXFIFOFull(UART_TypeDef * UARTx);						//·¢ËÍFIFOÊÇ·ñÂú£¬Èç¹û²»Â
 void UART_SetBaudrate(UART_TypeDef * UARTx, uint32_t baudrate);			//ÉèÖÃ²¨ÌØÂÊ
 uint32_t UART_GetBaudrate(UART_TypeDef * UARTx);			 			//»ñÈ¡µ±Ç°Ê¹ÓÃµÄ²¨ÌØÂÊ
 
-void UART_CTSConfig(UART_TypeDef * UARTx, uint32_t enable, uint32_t polarity);
-uint32_t UART_CTSLineState(UART_TypeDef * UARTx);
-
-void UART_RTSConfig(UART_TypeDef * UARTx, uint32_t enable, uint32_t polarity, uint32_t threshold);
-uint32_t UART_RTSLineState(UART_TypeDef * UARTx);
-
 void UART_LINConfig(UART_TypeDef * UARTx, uint32_t detectedIEn, uint32_t generatedIEn);
 void UART_LINGenerate(UART_TypeDef * UARTx);
 uint32_t UART_LINIsDetected(UART_TypeDef * UARTx);

@@ -1290,11 +1290,7 @@ typedef struct {
 	
 	__IO uint32_t LINCR;
 	
-	union {
-		__IO uint32_t CTSCR;
-		
-		__IO uint32_t RTSCR;
-	};
+		 uint32_t RESERVED;
 	
 	__IO uint32_t CFG;
 } UART_TypeDef;
@@ -1384,8 +1380,7 @@ typedef struct {
 #define UART_FIFO_RXTHR_Pos			16		//RX FIFO Threshold，RX中断触发门限，中断使能时 RXLVL >  RXTHR 触发RX中断
 #define UART_FIFO_RXTHR_Msk			(0xFF << UART_FIFO_RXTHR_Pos)
 #define UART_FIFO_TXTHR_Pos			24		//TX FIFO Threshold，TX中断触发门限，中断使能时 TXLVL <= TXTHR 触发TX中断
-//#define UART_FIFO_TXTHR_Msk			(0xFF << UART_FIFO_TXTHR_Pos)	编译器警告： integer operation result is out of range
-#define UART_FIFO_TXTHR_Msk			((uint32_t)0xFF << UART_FIFO_TXTHR_Pos)
+#define UART_FIFO_TXTHR_Msk			(0xFFu<< UART_FIFO_TXTHR_Pos)
 
 #define UART_LINCR_BRKDETIE_Pos		0		//检测到LIN Break中断使能
 #define UART_LINCR_BRKDETIE_Msk		(0x01 << UART_LINCR_BRKDETIE_Pos)
@@ -1397,22 +1392,6 @@ typedef struct {
 #define UART_LINCR_GENBRKIF_Msk		(0x01 << UART_LINCR_GENBRKIF_Pos)
 #define UART_LINCR_GENBRK_Pos		4		//发送LIN Break，发送完成自动清零
 #define UART_LINCR_GENBRK_Msk		(0x01 << UART_LINCR_GENBRK_Pos)
-
-#define UART_CTSCR_EN_Pos			0		//CTS流控使能
-#define UART_CTSCR_EN_Msk			(0x01 << UART_CTSCR_EN_Pos)
-#define UART_CTSCR_POL_Pos			2		//CTS信号极性，0 低有效，CTS输入为低表示可以发送数据
-#define UART_CTSCR_POL_Msk			(0x01 << UART_CTSCR_POL_Pos)
-#define UART_CTSCR_STAT_Pos			7		//CTS信号的当前状态
-#define UART_CTSCR_STAT_Msk			(0x01 << UART_CTSCR_STAT_Pos)
-
-#define UART_RTSCR_EN_Pos			1		//RTS流控使能
-#define UART_RTSCR_EN_Msk			(0x01 << UART_RTSCR_EN_Pos)
-#define UART_RTSCR_POL_Pos			3		//RTS信号极性    0 低有效，RTS输入为低表示可以接收数据
-#define UART_RTSCR_POL_Msk			(0x01 << UART_RTSCR_POL_Pos)
-#define UART_RTSCR_THR_Pos			4		//RTS流控的触发阈值    0 1字节    1 2字节    2 4字节    3 6字节
-#define UART_RTSCR_THR_Msk			(0x07 << UART_RTSCR_THR_Pos)
-#define UART_RTSCR_STAT_Pos			8		//RTS信号的当前状态
-#define UART_RTSCR_STAT_Msk			(0x01 << UART_RTSCR_STAT_Pos)
 
 #define UART_CFG_INV_Pos			0		//收发数据线上电平取反
 #define UART_CFG_INV_Msk			(0x01 << UART_CFG_INV_Pos)
