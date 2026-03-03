@@ -20,7 +20,7 @@
 #include "SWM181_flash.h"
 
 typedef void (*IAPFunc)(uint32_t faddr, uint32_t raddr, uint32_t cnt, uint32_t cmd);
-IAPFunc IAPfunc = (IAPFunc)0x1000601;
+const IAPFunc IAPfunc = (IAPFunc)0x1000601;
 
 /****************************************************************************************************************************************** 
 * º¯ÊýÃû³Æ:	FLASH_Erase()
