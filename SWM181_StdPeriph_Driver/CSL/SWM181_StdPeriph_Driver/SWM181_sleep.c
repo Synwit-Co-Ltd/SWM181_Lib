@@ -31,8 +31,14 @@ __ramfunc
 #endif
 void EnterSleepMode(void)
 {
+	__NOP();__NOP();__NOP();__NOP();__NOP();
+	__NOP();__NOP();__NOP();__NOP();__NOP();
+	
 	while((0x1<<16)&FLASH->STAT);
 	SYS->SLEEP |= (1 << SYS_SLEEP_SLEEP_Pos);
+	
+	__NOP();__NOP();__NOP();__NOP();__NOP();
+	__NOP();__NOP();__NOP();__NOP();__NOP();
 }
 
 
@@ -41,9 +47,15 @@ __ramfunc
 #endif
 void EnterStopMode(void)
 {
+	__NOP();__NOP();__NOP();__NOP();__NOP();
+	__NOP();__NOP();__NOP();__NOP();__NOP();
+	
 	while((0x1<<16)&FLASH->STAT);
 	FLASH->CR = 0x1<<12;
 	FLASH->START = 0x1;
 	while(0x1&FLASH->START);
 	SYS->SLEEP |= (1 << SYS_SLEEP_STOP_Pos);
+	
+	__NOP();__NOP();__NOP();__NOP();__NOP();
+	__NOP();__NOP();__NOP();__NOP();__NOP();
 }
