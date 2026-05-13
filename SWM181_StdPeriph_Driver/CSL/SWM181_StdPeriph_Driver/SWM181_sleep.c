@@ -27,9 +27,10 @@
 
 
 #if defined ( __ICCARM__ )
-__ramfunc
-#endif
+__ramfunc void EnterSleepMode(void)
+#else
 void EnterSleepMode(void)
+#endif
 {
 	__NOP();__NOP();__NOP();__NOP();__NOP();
 	__NOP();__NOP();__NOP();__NOP();__NOP();
@@ -43,9 +44,10 @@ void EnterSleepMode(void)
 
 
 #if defined ( __ICCARM__ )
-__ramfunc
-#endif
+__ramfunc void EnterStopMode(void)
+#else
 void EnterStopMode(void)
+#endif
 {
 	__NOP();__NOP();__NOP();__NOP();__NOP();
 	__NOP();__NOP();__NOP();__NOP();__NOP();
