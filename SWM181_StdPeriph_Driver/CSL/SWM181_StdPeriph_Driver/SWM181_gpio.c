@@ -232,9 +232,9 @@ uint32_t GPIO_GetBits(GPIO_TypeDef * GPIOx, uint32_t n, uint32_t w)
 ******************************************************************************************************************************************/
 void GPIO_AtomicSetBit(GPIO_TypeDef * GPIOx, uint32_t n)
 {
-	__disable_irq();
+	uint32_t primask = SW_enter_critical();
 	GPIOx->DATA |= (0x01 << n);
-	__enable_irq();
+	SW_exit_critical(primask);
 }
 
 /****************************************************************************************************************************************** 
@@ -247,9 +247,9 @@ void GPIO_AtomicSetBit(GPIO_TypeDef * GPIOx, uint32_t n)
 ******************************************************************************************************************************************/
 void GPIO_AtomicClrBit(GPIO_TypeDef * GPIOx, uint32_t n)
 {
-	__disable_irq();
+	uint32_t primask = SW_enter_critical();
 	GPIOx->DATA &= ~(0x01 << n);
-	__enable_irq();
+	SW_exit_critical(primask);
 }
 
 /****************************************************************************************************************************************** 
@@ -262,9 +262,9 @@ void GPIO_AtomicClrBit(GPIO_TypeDef * GPIOx, uint32_t n)
 ******************************************************************************************************************************************/
 void GPIO_AtomicInvBit(GPIO_TypeDef * GPIOx, uint32_t n)
 {
-	__disable_irq();
+	uint32_t primask = SW_enter_critical();
 	GPIOx->DATA ^= (0x01 << n);
-	__enable_irq();
+	SW_exit_critical(primask);
 }
 
 /****************************************************************************************************************************************** 
@@ -279,12 +279,13 @@ void GPIO_AtomicInvBit(GPIO_TypeDef * GPIOx, uint32_t n)
 void GPIO_AtomicSetBits(GPIO_TypeDef * GPIOx, uint32_t n, uint32_t w)
 {
 	uint32_t bits;
+	uint32_t primask;
 	
 	bits = 0xFFFF >> (16 - w);
 	
-	__disable_irq();
+	primask = SW_enter_critical();
 	GPIOx->DATA |= (bits << n);
-	__enable_irq();
+	SW_exit_critical(primask);
 }
 
 /****************************************************************************************************************************************** 
@@ -299,12 +300,13 @@ void GPIO_AtomicSetBits(GPIO_TypeDef * GPIOx, uint32_t n, uint32_t w)
 void GPIO_AtomicClrBits(GPIO_TypeDef * GPIOx, uint32_t n, uint32_t w)
 {
 	uint32_t bits;
+	uint32_t primask;
 	
 	bits = 0xFFFF >> (16 - w);
 	
-	__disable_irq();
+	primask = SW_enter_critical();
 	GPIOx->DATA &= ~(bits << n);
-	__enable_irq();
+	SW_exit_critical(primask);
 }
 
 /****************************************************************************************************************************************** 
@@ -319,10 +321,11 @@ void GPIO_AtomicClrBits(GPIO_TypeDef * GPIOx, uint32_t n, uint32_t w)
 void GPIO_AtomicInvBits(GPIO_TypeDef * GPIOx, uint32_t n, uint32_t w)
 {
 	uint32_t bits;
+	uint32_t primask;
 	
 	bits = 0xFFFF >> (16 - w);
 	
-	__disable_irq();
+	primask = SW_enter_critical();
 	GPIOx->DATA ^= (bits << n);
-	__enable_irq();
+	SW_exit_critical(primask);
 }

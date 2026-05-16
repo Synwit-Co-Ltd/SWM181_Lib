@@ -33,7 +33,7 @@ void FLASH_Erase(uint32_t addr)
 {
 	uint32_t i;
 	
-	__disable_irq();
+	uint32_t primask = SW_enter_critical();
 	
 	IAPfunc(addr, 0, 0, 0x51);
 	
@@ -41,7 +41,7 @@ void FLASH_Erase(uint32_t addr)
 	for(i = 0; i < 4096; i += 128)
 		CACHE_Invalid(addr + i);
 	
-	__enable_irq();
+	SW_exit_critical(primask);
 }
 
 /****************************************************************************************************************************************** 
@@ -57,7 +57,7 @@ void FLASH_Write(uint32_t addr, uint32_t buff[], uint32_t cnt)
 {	
 	uint32_t i;
 	
-	__disable_irq();
+	uint32_t primask = SW_enter_critical();
 	
 	FLASH->CR = (1 << FLASH_CR_FFCLR_Pos);			//Clear FIFO
 	FLASH->CR = 0;
@@ -67,7 +67,7 @@ void FLASH_Write(uint32_t addr, uint32_t buff[], uint32_t cnt)
 	for(i = 0; i < cnt*4; i += 128)
 		CACHE_Invalid(addr + i);
 	
-	__enable_irq();
+	SW_exit_critical(primask);
 }
 
 /****************************************************************************************************************************************** 
